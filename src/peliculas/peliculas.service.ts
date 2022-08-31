@@ -1,11 +1,28 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import { CreatePeliculaDto } from './dto/create-pelicula.dto';
 import { UpdatePeliculaDto } from './dto/update-pelicula.dto';
+import { Pelicula, PeliculaDocument } from './entities/pelicula.entity';
 
 @Injectable()
 export class PeliculasService {
-  create(createPeliculaDto: CreatePeliculaDto) {
-    return 'This action adds a new pelicula';
+  constructor(
+    @InjectModel('pelicula')
+    private readonly peliculaModel: Model<PeliculaDocument>,
+  ) {}
+  async createPelicula(
+    nombre: string,
+    portada: string,
+    estreno: string,
+    director: string,
+    sinopsis: string,
+    genero: string,
+    duracion: string,
+    trailer: string,
+  ): Promise<Pelicula> {
+    const nuevo = new this.peliculaModel(CreatePeliculaDto);
+    return await nuevo.save();
   }
 
   findAll() {
