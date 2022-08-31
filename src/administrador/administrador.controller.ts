@@ -1,15 +1,34 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Res,
+  HttpStatus,
+} from '@nestjs/common';
 import { AdministradorService } from './administrador.service';
 import { CreateAdministradorDto } from './dto/create-administrador.dto';
 import { UpdateAdministradorDto } from './dto/update-administrador.dto';
+import { Administrador } from './entities/administrador.entity';
 
 @Controller('administrador')
 export class AdministradorController {
-  constructor(private readonly administradorService: AdministradorService) {}
+  constructor(private readonly administradorService: AdministradorService) { }
 
-  @Post()
-  create(@Body() createAdministradorDto: CreateAdministradorDto) {
-    return this.administradorService.create(createAdministradorDto);
+  @Post('/create')
+  create(
+    @Res() res,
+    @Body() createAdministradorDto: CreateAdministradorDto,
+  ): Promise<Administrador> {
+    const create = this.administradorService.create(createAdministradorDto);
+
+    return res.status(HttpStatus.OK).json({
+      message: 'Administrador creado correctamente',
+      create,
+    });
   }
 
   @Get()
@@ -23,7 +42,10 @@ export class AdministradorController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAdministradorDto: UpdateAdministradorDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateAdministradorDto: UpdateAdministradorDto,
+  ) {
     return this.administradorService.update(+id, updateAdministradorDto);
   }
 
