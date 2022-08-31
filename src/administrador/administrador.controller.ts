@@ -26,8 +26,7 @@ export class AdministradorController {
     const create = this.administradorService.create(createAdministradorDto);
 
     return res.status(HttpStatus.OK).json({
-      message: 'Administrador creado correctamente',
-      create,
+      message: 'Administrador creado correctamente'
     });
   }
 
