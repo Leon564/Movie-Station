@@ -18,7 +18,7 @@ import { Administrador } from './entities/administrador.entity';
 export class AdministradorController {
   constructor(private readonly administradorService: AdministradorService) { }
 
-  @Post('/create')
+  @Post('/create') //http://localhost:3000/administrador/create
   create(
     @Res() res,
     @Body() createAdministradorDto: CreateAdministradorDto,
