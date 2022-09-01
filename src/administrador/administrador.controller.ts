@@ -14,6 +14,7 @@ import { AdministradorService } from './administrador.service';
 import { CreateAdministradorDto } from './dto/create-administrador.dto';
 import { UpdateAdministradorDto } from './dto/update-administrador.dto';
 import { Administrador } from './entities/administrador.entity';
+import * as bcrypt from 'bcrypt'
 
 @Controller('administrador')
 export class AdministradorController {
@@ -21,8 +22,12 @@ export class AdministradorController {
 
   @Post('/create') //http://localhost:3000/administrador/create
   async create(@Res() res, @Body() createAdministradorDto: CreateAdministradorDto,): Promise<Administrador> {
-    const New = await this.administradorService.create(createAdministradorDto);
 
+    const saltOrRounds = 10;
+    const claveEncriptada = await bcrypt.hash(createAdministradorDto.contraseña, saltOrRounds);
+    createAdministradorDto.contraseña = claveEncriptada;
+
+    const New = await this.administradorService.create(createAdministradorDto);
     return res.status(HttpStatus.OK).json({
       mensaje: 'Administrador creado correctamente',
       New
