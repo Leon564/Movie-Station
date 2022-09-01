@@ -11,33 +11,26 @@ export class PeliculasService {
     @InjectModel('pelicula')
     private readonly peliculaModel: Model<PeliculaDocument>,
   ) {}
-  async createPelicula(
-    nombre: string,
-    portada: string,
-    estreno: string,
-    director: string,
-    sinopsis: string,
-    genero: string,
-    duracion: string,
-    trailer: string,
-  ): Promise<Pelicula> {
-    const nuevo = new this.peliculaModel(CreatePeliculaDto);
+  async create(pelicula: Pelicula): Promise<Pelicula> {
+    const nuevo = new this.peliculaModel(pelicula);
     return await nuevo.save();
   }
 
-  findAll() {
-    return `This action returns all peliculas`;
+  async getAll(): Promise<PeliculaDocument[]> {
+    return await this.peliculaModel.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} pelicula`;
+  async getOne(id: string): Promise<PeliculaDocument> {
+    return await this.peliculaModel.findOne({ _id: id });
   }
 
-  update(id: number, updatePeliculaDto: UpdatePeliculaDto) {
-    return `This action updates a #${id} pelicula`;
+  async update(id: string, pelicula: Pelicula): Promise<PeliculaDocument> {
+    return await this.peliculaModel.findByIdAndUpdate(id, pelicula, {
+      new: true,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} pelicula`;
+  async delete(id: string): Promise<PeliculaDocument> {
+    return await this.peliculaModel.findByIdAndDelete(id);
   }
 }
