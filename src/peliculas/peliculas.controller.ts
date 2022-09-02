@@ -19,40 +19,54 @@ import { NotFoundError } from 'rxjs';
 
 @Controller('peliculas')
 export class PeliculasController {
-  constructor(private readonly peliculasService: PeliculasService) {}
+  constructor(private readonly peliculasService: PeliculasService) { }
 
-  @Post('/crear')
-  async create(@Body() pelicula: Pelicula): Promise<Pelicula> {
-    const result = await this.peliculasService.create(pelicula);
-    return result;
+  @Post('/create')
+  async create(@Res() res, @Body() CreatePeliculaDto: CreatePeliculaDto): Promise<Pelicula> {
+    const result = await this.peliculasService.Create(CreatePeliculaDto);
+    return res.status(HttpStatus.OK).json({
+      mensaje: 'Pelicula creada correctamente',
+      result
+    })
+
   }
 
-  @Get()
-  getAll(): Promise<Pelicula[]> {
-    return this.peliculasService.getAll();
+  @Get('/')
+  async findAll(@Res() res) {
+    const GetAll = await this.peliculasService.getAll();
+    return res.status(HttpStatus.OK).json({
+      mensaje: 'Listado de todos los administradores',
+      GetAll
+    });
   }
 
   @Get(':id')
   async getOne(@Res() res, @Param('id') id): Promise<Pelicula> {
     const obtener = await this.peliculasService.getOne(id);
-    if (!obtener) throw new NotFoundException('Pelicula no existe');
+    if (!obtener) throw new NotFoundException('La Pelicula no existe');
     return res.status(HttpStatus.OK).json({
-      pelicula: obtener,
+      mensaje: 'Pelicula obtenida por id',
+      obtener
     });
   }
 
   @Put(':id')
-  update(@Param('id') id, @Body() pelicula: Pelicula): Promise<Pelicula> {
-    return this.peliculasService.update(id, pelicula);
+  async update(@Res() res, @Param('id') id, @Body() UpdatePeliculaDto: UpdatePeliculaDto): Promise<Pelicula> {
+    const updatePelicula = await this.peliculasService.update(id, UpdatePeliculaDto);
+    if (!updatePelicula) throw new NotFoundException("El administrador no existe")
+    return res.status(HttpStatus.OK).json({
+      mensaje: 'Pelicula editada con exito',
+      updatePelicula
+    })
   }
 
   @Delete(':id')
-  async delete(@Res() res, @Param('id') id): Promise<Pelicula> {
+  async delete(@Res() res, @Param('id') id) {
     const borrar = await this.peliculasService.delete(id);
-    if (!borrar) throw new NotFoundException('Pelicula no existe');
+    if (!borrar) throw new NotFoundException('La pelicula no existe');
     return res.status(HttpStatus.OK).json({
-      message: 'Pelicula borrada',
-      pelicula: borrar,
+      message: 'Pelicula borrada con exito',
+      borrar
     });
   }
 }

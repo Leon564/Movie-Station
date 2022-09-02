@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+
 import { Model } from 'mongoose';
 import { CreatePeliculaDto } from './dto/create-pelicula.dto';
 import { UpdatePeliculaDto } from './dto/update-pelicula.dto';
@@ -10,9 +11,9 @@ export class PeliculasService {
   constructor(
     @InjectModel('pelicula')
     private readonly peliculaModel: Model<PeliculaDocument>,
-  ) {}
-  async create(pelicula: Pelicula): Promise<Pelicula> {
-    const nuevo = new this.peliculaModel(pelicula);
+  ) { }
+  async Create(CreatePeliculaDto: CreatePeliculaDto): Promise<Pelicula> {
+    const nuevo = new this.peliculaModel(CreatePeliculaDto);
     return await nuevo.save();
   }
 
@@ -24,8 +25,8 @@ export class PeliculasService {
     return await this.peliculaModel.findOne({ _id: id });
   }
 
-  async update(id: string, pelicula: Pelicula): Promise<PeliculaDocument> {
-    return await this.peliculaModel.findByIdAndUpdate(id, pelicula, {
+  async update(id: string, UpdatePeliculaDto: UpdatePeliculaDto): Promise<PeliculaDocument> {
+    return await this.peliculaModel.findByIdAndUpdate(id, UpdatePeliculaDto, {
       new: true,
     });
   }

@@ -1,5 +1,4 @@
 export class CreatePeliculaDto {
-  idPelicula: number;
   nombre: string;
   portada: string;
   estreno: string;
