@@ -1,11 +1,10 @@
 export class CreatePeliculaDto {
-  id: Number;
-  Nombre: String;
-  PortadaOficial: String;
-  FechaEstreno: String;
-  Director: String;
-  Sinopsis: String;
-  Género: String;
-  TiempoDuración: String;
-  Trailer: String;
+  nombre: string;
+  portada: string;
+  estreno: string;
+  director: string;
+  sinopsis: string;
+  genero: string;
+  duración: string;
+  trailer: string;
 }

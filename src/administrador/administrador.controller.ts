@@ -8,7 +8,7 @@ import {
   Delete,
   Res,
   HttpStatus,
-  NotFoundException,
+  NotFoundException,  
 } from '@nestjs/common';
 import { AdministradorService } from './administrador.service';
 import { CreateAdministradorDto } from './dto/create-administrador.dto';

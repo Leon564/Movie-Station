@@ -1,13 +1,28 @@
-import mongoose from 'mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import mongoose, { Document } from 'mongoose';
 
-export const Pelicula = new mongoose.Schema({
-  id: Number,
-  Nombre: String,
-  PortadaOficial: String,
-  FechaEstreno: String,
-  Director: String,
-  Sinopsis: String,
-  Género: String,
-  TiempoDuración: String,
-  Trailer: String,
-});
+export type PeliculaDocument = Pelicula & Document;
+
+@Schema()
+export class Pelicula {
+
+  _id: mongoose.Types.ObjectId;
+  @Prop()
+  nombre: string;
+  @Prop()
+  portada: string;
+  @Prop()
+  estreno: string;
+  @Prop()
+  director: string;
+  @Prop()
+  sinopsis: string;
+  @Prop()
+  genero: string;
+  @Prop()
+  duración: string;
+  @Prop()
+  trailer: string;
+}
+
+export const PeliculaSchema = SchemaFactory.createForClass(Pelicula);

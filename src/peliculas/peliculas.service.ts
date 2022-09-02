@@ -1,26 +1,37 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+
+import { Model } from 'mongoose';
 import { CreatePeliculaDto } from './dto/create-pelicula.dto';
 import { UpdatePeliculaDto } from './dto/update-pelicula.dto';
+import { Pelicula, PeliculaDocument } from './entities/pelicula.entity';
 
 @Injectable()
 export class PeliculasService {
-  create(createPeliculaDto: CreatePeliculaDto) {
-    return 'This action adds a new pelicula';
+  constructor(
+    @InjectModel('pelicula')
+    private readonly peliculaModel: Model<PeliculaDocument>,
+  ) { }
+  async Create(CreatePeliculaDto: CreatePeliculaDto): Promise<Pelicula> {
+    const nuevo = new this.peliculaModel(CreatePeliculaDto);
+    return await nuevo.save();
   }
 
-  findAll() {
-    return `This action returns all peliculas`;
+  async getAll(): Promise<PeliculaDocument[]> {
+    return await this.peliculaModel.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} pelicula`;
+  async getOne(id: string): Promise<PeliculaDocument> {
+    return await this.peliculaModel.findOne({ _id: id });
   }
 
-  update(id: number, updatePeliculaDto: UpdatePeliculaDto) {
-    return `This action updates a #${id} pelicula`;
+  async update(id: string, UpdatePeliculaDto: UpdatePeliculaDto): Promise<PeliculaDocument> {
+    return await this.peliculaModel.findByIdAndUpdate(id, UpdatePeliculaDto, {
+      new: true,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} pelicula`;
+  async delete(id: string): Promise<PeliculaDocument> {
+    return await this.peliculaModel.findByIdAndDelete(id);
   }
 }
