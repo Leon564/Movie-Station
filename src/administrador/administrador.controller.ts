@@ -6,6 +6,9 @@ import {
   Patch,
   Param,
   Delete,
+  Res,
+  HttpStatus,
+  NotFoundException,  
 } from '@nestjs/common';
 import { AdministradorService } from './administrador.service';
 import { CreateAdministradorDto } from './dto/create-administrador.dto';
