@@ -1,7 +1,6 @@
 export class CreateAdministradorDto {
-  idAdministrado: number;
-  nombre: string;
-  email: string;
-  usuario: string;
-  contraseña: string;
+  nombre: String;
+  email: String;
+  usuario: String;
+  contraseña: String;
 }
