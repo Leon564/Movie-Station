@@ -9,17 +9,20 @@ import {
   Res,
   HttpStatus,
   NotFoundException,  
+  UseGuards,
 } from '@nestjs/common';
 import { AdministradorService } from './administrador.service';
 import { CreateAdministradorDto } from './dto/create-administrador.dto';
 import { UpdateAdministradorDto } from './dto/update-administrador.dto';
 import { Administrador } from './entities/administrador.entity';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import * as bcrypt from 'bcrypt'
 
 @Controller('administrador')
 export class AdministradorController {
   constructor(private readonly administradorService: AdministradorService) { }
 
+  @UseGuards(JwtAuthGuard)
   @Post('/create') //http://localhost:3000/administrador/create
   async create(@Res() res, @Body() createAdministradorDto: CreateAdministradorDto,): Promise<Administrador> {
 
@@ -34,6 +37,7 @@ export class AdministradorController {
     });
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('/')
   async findAll(@Res() res) {
     const GetAll = await this.administradorService.findAll();
@@ -43,6 +47,7 @@ export class AdministradorController {
     });
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('/:id')
   async findOne(@Res() res, @Param('id') id: string) {
     const GetOne = await this.administradorService.findOne(id);
@@ -53,6 +58,7 @@ export class AdministradorController {
     })
   }
 
+  @UseGuards(JwtAuthGuard)
   @Patch(':id')
   async update(@Res() res,
     @Param('id') id: string,
@@ -67,6 +73,7 @@ export class AdministradorController {
     })
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   async remove(@Res() res, @Param('id') id: string) {
     const RemoveOne = await this.administradorService.remove(id);

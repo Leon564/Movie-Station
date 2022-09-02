@@ -10,17 +10,19 @@ import {
   Res,
   NotFoundException,
   HttpStatus,
+  UseGuards,
 } from '@nestjs/common';
 import { PeliculasService } from './peliculas.service';
 import { CreatePeliculaDto } from './dto/create-pelicula.dto';
 import { UpdatePeliculaDto } from './dto/update-pelicula.dto';
 import { Pelicula } from './entities/pelicula.entity';
-import { NotFoundError } from 'rxjs';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @Controller('peliculas')
 export class PeliculasController {
   constructor(private readonly peliculasService: PeliculasService) { }
 
+  @UseGuards(JwtAuthGuard)
   @Post('/create')
   async create(@Res() res, @Body() CreatePeliculaDto: CreatePeliculaDto): Promise<Pelicula> {
     const result = await this.peliculasService.Create(CreatePeliculaDto);
@@ -50,6 +52,7 @@ export class PeliculasController {
     });
   }
 
+  @UseGuards(JwtAuthGuard)
   @Put(':id')
   async update(@Res() res, @Param('id') id, @Body() UpdatePeliculaDto: UpdatePeliculaDto): Promise<Pelicula> {
     const updatePelicula = await this.peliculasService.update(id, UpdatePeliculaDto);
@@ -60,6 +63,7 @@ export class PeliculasController {
     })
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   async delete(@Res() res, @Param('id') id) {
     const borrar = await this.peliculasService.delete(id);

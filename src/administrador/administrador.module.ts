@@ -12,5 +12,6 @@ import { AdministradorSchema } from './entities/administrador.entity';
   ],
   controllers: [AdministradorController],
   providers: [AdministradorService],
+  exports: [AdministradorService],
 })
 export class AdministradorModule {}

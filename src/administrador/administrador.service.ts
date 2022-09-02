@@ -9,8 +9,8 @@ import { AdminDocument, Administrador } from './entities/administrador.entity';
 export class AdministradorService {
   constructor(
     @InjectModel('administrador')
-    private readonly adminModel: Model<AdminDocument>
-  ) { }
+    private readonly adminModel: Model<AdminDocument>,
+  ) {}
 
   async create(
     CreateAdministradorDto: CreateAdministradorDto,
@@ -29,12 +29,18 @@ export class AdministradorService {
     return GetOne;
   }
 
+  async getAdmin(user): Promise<Administrador> {
+    //find by username
+    return await this.adminModel.findOne({ usuario: user });
+  }
   async update(id: string, updateAdministradorDto: UpdateAdministradorDto) {
-    return await this.adminModel.findByIdAndUpdate(id, updateAdministradorDto, { new: true });
+    return await this.adminModel.findByIdAndUpdate(id, updateAdministradorDto, {
+      new: true,
+    });
   }
 
   async remove(id: string) {
-    const RemoveOne = await this.adminModel.findByIdAndDelete(id)
+    const RemoveOne = await this.adminModel.findByIdAndDelete(id);
     return RemoveOne;
   }
 }
