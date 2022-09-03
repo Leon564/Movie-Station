@@ -5,7 +5,6 @@ export type PeliculaDocument = Pelicula & Document;
 
 @Schema()
 export class Pelicula {
-
   _id: mongoose.Types.ObjectId;
   @Prop()
   nombre: string;

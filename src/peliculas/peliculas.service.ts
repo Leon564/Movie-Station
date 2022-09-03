@@ -11,7 +11,7 @@ export class PeliculasService {
   constructor(
     @InjectModel('pelicula')
     private readonly peliculaModel: Model<PeliculaDocument>,
-  ) { }
+  ) {}
   async Create(CreatePeliculaDto: CreatePeliculaDto): Promise<Pelicula> {
     const nuevo = new this.peliculaModel(CreatePeliculaDto);
     return await nuevo.save();
@@ -25,7 +25,10 @@ export class PeliculasService {
     return await this.peliculaModel.findOne({ _id: id });
   }
 
-  async update(id: string, UpdatePeliculaDto: UpdatePeliculaDto): Promise<PeliculaDocument> {
+  async update(
+    id: string,
+    UpdatePeliculaDto: UpdatePeliculaDto,
+  ): Promise<PeliculaDocument> {
     return await this.peliculaModel.findByIdAndUpdate(id, UpdatePeliculaDto, {
       new: true,
     });
