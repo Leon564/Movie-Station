@@ -17,13 +17,16 @@ export class AuthService {
 
     if (!administrador)
       return new NotAcceptableException('No existe el usuario indicado');
-      const validarPassword = await bcrypt.compare(administradorDTO.contraseña, administrador.contraseña);
+    const validarPassword = await bcrypt.compare(
+      administradorDTO.contraseña,
+      administrador.contraseña,
+    );
     if (administrador && validarPassword) {
-      const payload = { usuario: administrador.usuario, id: administrador._id  };
+      const payload = { usuario: administrador.usuario, id: administrador._id };
       return {
-        access_token: this.jwtService.sign(payload)
+        access_token: this.jwtService.sign(payload),
       };
     }
-    return {result:false, message:'Contraseña incorrecta'};
+    return { result: false, message: 'Contraseña incorrecta' };
   }
 }

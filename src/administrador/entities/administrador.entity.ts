@@ -7,12 +7,12 @@ export type AdminDocument = Administrador & Document;
 export class Administrador {
   _id: mongoose.Types.ObjectId;
   @Prop()
-  nombre: String;
+  nombre: string;
   @Prop()
-  email: String;
+  email: string;
   @Prop()
-  usuario: String;
+  usuario: string;
   @Prop()
-  contraseña: String;
+  contraseña: string;
 }
 export const AdministradorSchema = SchemaFactory.createForClass(Administrador);
