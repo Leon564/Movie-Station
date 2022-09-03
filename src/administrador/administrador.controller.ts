@@ -17,15 +17,16 @@ import { UpdateAdministradorDto } from './dto/update-administrador.dto';
 import { Administrador } from './entities/administrador.entity';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import * as bcrypt from 'bcrypt';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
-@ApiTags('administrador')
+@ApiTags('Administrador')
+@ApiBearerAuth('JWT-auth')
 @Controller('administrador')
 export class AdministradorController {
   constructor(private readonly administradorService: AdministradorService) {}
 
   @UseGuards(JwtAuthGuard)
-  @Post('/create') //http://localhost:3000/administrador/create
+  @Post('/create')
   async create(
     @Res() res,
     @Body() createAdministradorDto: CreateAdministradorDto,

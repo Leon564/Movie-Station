@@ -5,14 +5,27 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const config = new DocumentBuilder()
-    .setTitle('Aplicación de administración')
-    .setDescription('Descripcion')
+    .setTitle('Movie-Station')
+    .setDescription('Obtén información de miles de películas.')
+    .addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+        name: 'JWT',
+        description: 'Enter JWT token',
+        in: 'header',
+      },
+      'JWT-auth', // Mismo nombre a usar en el controlador cuando usemos el decorador @ApiBearerAuth() !
+
+    )
     .setVersion('1.0')
-    .addTag('administrador') //después asignar el decorador en el controller
-    .addTag('peliculas') //después asignar el decorador en el controller
+    .addTag('Auth')
+    .addTag('Administrador') //después asignar el decorador en el controller
+    .addTag('Peliculas') //después asignar el decorador en el controller
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('docs', app, document);
 
   await app.listen(3000);
 }
