@@ -45,6 +45,16 @@ export class PeliculasController {
       GetAll,
     });
   }
+  @Get('find/:name')
+  async getByName(@Res() res, @Param('name') name: string) {
+    const pelicula = await this.peliculasService.getByName(name);
+    if (!pelicula) throw new NotFoundException('La pelicula no existe');
+    return res.status(HttpStatus.OK).json({
+      message: 'Pelicula encontrada con exito',
+      pelicula,
+    });
+  }
+
 
   @Get('/:id')
   async getOne(@Res() res, @Param('id') id: string): Promise<Pelicula> {

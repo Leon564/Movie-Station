@@ -24,6 +24,9 @@ export class PeliculasService {
   async getOne(id: string): Promise<PeliculaDocument> {
     return await this.peliculaModel.findOne({ _id: id });
   }
+  async getByName(name: string): Promise<PeliculaDocument[]> {  
+    return await this.peliculaModel.find({nombre: new RegExp(name, 'i')});
+  }
 
   async update(
     id: string,
