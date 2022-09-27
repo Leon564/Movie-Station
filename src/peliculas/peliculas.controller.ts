@@ -10,6 +10,7 @@ import {
   NotFoundException,
   HttpStatus,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { PeliculasService } from './peliculas.service';
 import { CreatePeliculaDto } from './dto/create-pelicula.dto';
@@ -45,8 +46,8 @@ export class PeliculasController {
       GetAll,
     });
   }
-  @Get('find/:name')
-  async getByName(@Res() res, @Param('name') name: string) {
+  @Get('find')
+  async getByName(@Res() res, @Query('name') name: string) {
     const pelicula = await this.peliculasService.getByName(name);
     if (!pelicula) throw new NotFoundException('La pelicula no existe');
     return res.status(HttpStatus.OK).json({
